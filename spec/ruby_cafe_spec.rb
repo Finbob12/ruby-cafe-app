@@ -25,15 +25,29 @@ describe Menu do
         menu = Menu.new
         menu.add_item(name, price)
         expect(menu.get_price(name)).to eq(price)
-        end
+    end
     it 'should be able to add an item' do
         name = 'latte'
         price = 4.00
         menu = Menu.new
         menu.add_item(name, price)
         expect(menu.get_items().length).to be(1)
-      end
     end
+    it 'should return the item name for valid item' do
+        name = 'latte'
+        price = 4.00
+        menu = Menu.new
+        menu.add_item(name, price)
+        expect(menu.validate_item(name)).to eq(name)
+    end
+    it 'should return nil for invalid item' do
+        name = 'latte'
+        price = 4.00
+        menu = Menu.new
+        menu.add_item(name, price)
+        expect(menu.validate_item('tea')).to eq(nil)
+    end
+end
 
 describe Order do
     it 'should add an item to the order' do
@@ -87,5 +101,17 @@ describe 'Cafe' do
         menu_items = {latte: 4.00, tea: 2.00}
         cafe = Cafe.new(name, menu_items)
         expect(cafe.print_menu).to eq(nil)
+    end
+    it 'should calculate order total' do
+        name = 'My cafe'
+        menu_items = {'latte' => 4.00, 'tea' => 2.00}
+        cafe = Cafe.new(name, menu_items)
+        item = 'latte'
+        quantity = 1
+        cafe.add_to_order(item, quantity)
+        item = 'latte'
+        quantity = 2
+        cafe.add_to_order(item, quantity)
+        expect(cafe.order_total).to be(12.00)
     end
 end
